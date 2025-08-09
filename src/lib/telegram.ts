@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function initTelegram() {
   try {
     // Ensure Telegram environment if inside Mini App
@@ -16,3 +17,4 @@ export default function initTelegram() {
     // no-op
   }
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
