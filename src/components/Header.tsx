@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import WalletConnect from "./WalletConnect";
 
 export default function Header() {
+  console.log("=== HEADER COMPONENT START ===");
   const wallet = useTonWallet();
   const [balance, setBalance] = useState<string>("0");
   const [loading, setLoading] = useState(false);
@@ -75,6 +76,10 @@ export default function Header() {
       setBalance("0");
     }
   }, [wallet?.account?.address]);
+
+  console.log("Header rendering with wallet:", wallet);
+  console.log("Balance state:", balance);
+  console.log("Loading state:", loading);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur border-b border-white/20 px-4 py-3">
