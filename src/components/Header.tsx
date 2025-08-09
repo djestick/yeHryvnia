@@ -9,14 +9,22 @@ export default function Header() {
   const [balance, setBalance] = useState<string>("0");
   const [loading, setLoading] = useState(false);
 
+  console.log("Header component rendered, wallet:", wallet);
+
   // Функция для получения баланса єГрн
   const fetchBalance = async (address: string) => {
-    if (!address) return;
+    console.log("fetchBalance called with address:", address);
+    if (!address) {
+      console.log("No address provided, returning");
+      return;
+    }
 
     setLoading(true);
     try {
       // Используем Toncenter API для получения баланса Jetton
-      const jettonMaster = process.env.NEXT_PUBLIC_TON_JETTON_MASTER;
+      const jettonMaster =
+        process.env.NEXT_PUBLIC_TON_JETTON_MASTER ||
+        "EQDQ6e3CLKCiIiOGOGYuYHvs0zwztTpbIU1M6MVeGGx5_wlF";
       console.log("Fetching balance for:", address);
       console.log("Jetton master:", jettonMaster);
       console.log(
