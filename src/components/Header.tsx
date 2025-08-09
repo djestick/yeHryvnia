@@ -1,11 +1,11 @@
 "use client";
 
-import { useTonConnect } from "@tonconnect/ui-react";
+import { useTonConnectUI } from "@tonconnect/ui-react";
 import { useEffect, useState } from "react";
 import WalletConnect from "./WalletConnect";
 
 export default function Header() {
-  const { account } = useTonConnect();
+  const { account } = useTonConnectUI();
   const [balance, setBalance] = useState<string>("0");
   const [loading, setLoading] = useState(false);
 
