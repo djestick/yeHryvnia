@@ -19,6 +19,10 @@ export default function Header() {
       const jettonMaster = process.env.NEXT_PUBLIC_TON_JETTON_MASTER;
       console.log("Fetching balance for:", address);
       console.log("Jetton master:", jettonMaster);
+      console.log(
+        "NEXT_PUBLIC_TON_JETTON_MASTER env:",
+        process.env.NEXT_PUBLIC_TON_JETTON_MASTER
+      );
 
       const response = await fetch(
         `https://toncenter.com/api/v2/jetton/balances?account=${address}&jetton_master=${jettonMaster}`
@@ -52,9 +56,14 @@ export default function Header() {
   };
 
   useEffect(() => {
+    console.log("Wallet changed:", wallet);
+    console.log("Wallet account:", wallet?.account);
+
     if (wallet?.account?.address) {
+      console.log("Fetching balance for address:", wallet.account.address);
       fetchBalance(wallet.account.address);
     } else {
+      console.log("No wallet address, setting balance to 0");
       setBalance("0");
     }
   }, [wallet?.account?.address]);
