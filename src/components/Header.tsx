@@ -17,18 +17,32 @@ export default function Header() {
     try {
       // Используем Toncenter API для получения баланса Jetton
       const jettonMaster = process.env.NEXT_PUBLIC_TON_JETTON_MASTER;
+      console.log("Fetching balance for:", address);
+      console.log("Jetton master:", jettonMaster);
+
       const response = await fetch(
         `https://toncenter.com/api/v2/jetton/balances?account=${address}&jetton_master=${jettonMaster}`
       );
 
+      console.log("Response status:", response.status);
+
       if (response.ok) {
         const data = await response.json();
+        console.log("API response:", data);
+
         if (data.result && data.result.length > 0) {
           // Конвертируем из нанограмм в єГрн (делим на 10^9)
           const balanceInNano = data.result[0].balance;
           const balanceInHryvnia = (parseInt(balanceInNano) / 1e9).toFixed(2);
+          console.log("Balance in nano:", balanceInNano);
+          console.log("Balance in hryvnia:", balanceInHryvnia);
           setBalance(balanceInHryvnia);
+        } else {
+          console.log("No jetton balance found");
+          setBalance("0");
         }
+      } else {
+        console.error("API error:", response.status, response.statusText);
       }
     } catch (error) {
       console.error("Error fetching balance:", error);
@@ -48,15 +62,16 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur border-b border-white/20 px-4 py-3">
       <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3">
           <h1 className="text-lg font-bold text-white">TON Cards</h1>
           {wallet?.account?.address && (
             <div className="text-sm text-white/70">
-              {wallet.account.address.slice(0, 6)}...{wallet.account.address.slice(-4)}
+              {wallet.account.address.slice(0, 6)}...
+              {wallet.account.address.slice(-4)}
             </div>
           )}
         </div>
-        
+
         <div className="flex items-center space-x-3">
           {wallet?.account?.address && (
             <div className="flex items-center space-x-2 bg-white/10 rounded-lg px-3 py-1">
